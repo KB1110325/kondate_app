@@ -22,7 +22,7 @@ if password != PASSWORD:
 dish_key_map = {  # ここで定義
     "主菜": "main",
     "副菜": "side",
-    "汁"："soup"
+    "汁":"soup"
 }
 
 menu_data = {
