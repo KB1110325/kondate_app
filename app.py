@@ -95,9 +95,9 @@ for i in range(day_count):
     st.header(f"{i+1}日目の献立")
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i))
 
-    main_dish = st.selectbox(f"主菜を選んでください（{i+1}日目）", list(menu_data["主菜"].keys()), key=f"main_{i}")
-    side_dish = st.selectbox(f"副菜を選んでください（{i+1}日目）", list(menu_data["副菜"].keys()), key=f"side_{i}")
-    soup_dish = st.selectbox(f"汁を選んでください（{i+1}日目）", list(menu_data["汁"].keys()), key=f"soup_{i}")
+    main_dish = st.selectbox(f"主菜を選んでください（{i+1}日目）",["無し"] + list(menu_data["主菜"].keys()), key=f"main_{i}")
+    side_dish = st.selectbox(f"副菜を選んでください（{i+1}日目）",["無し"] + list(menu_data["副菜"].keys()), key=f"side_{i}")
+    soup_dish = st.selectbox(f"汁を選んでください（{i+1}日目）",["無し"] + list(menu_data["汁"].keys()), key=f"soup_{i}")
 
 
     selected_menus.append({"date": date, "main": main_dish, "side": side_dish, "soup": soup_dish})
@@ -121,6 +121,18 @@ if st.button("買い物リストをまとめる"):
                 ingredient_totals[item].append(qty)
 
     # 合算処理（単位付き）
+if selected_main != "無し":
+    ingredients = menu_data["主菜"][selected_main]["ingredients"]
+    # 合算用の処理へ
+
+if selected_side != "無し":
+    ingredients = menu_data["副菜"][selected_side]["ingredients"]
+    # 合算用の処理へ
+
+if selected_soup != "無し":
+    ingredients = menu_data["汁"][selected_soup]["ingredients"]
+    # 合算用の処理へ
+
     def sum_ingredients(qty_list):
         total = defaultdict(int)
         for qty in qty_list:
