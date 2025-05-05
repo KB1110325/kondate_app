@@ -107,7 +107,19 @@ for i in range(day_count):
 # ------------------------------
 if st.button("買い物リストをまとめる"):
     st.header("買い物リスト")
-    ingredient_totals = defaultdict(list)  # ここで定義
+    ingredient_totals = defaultdict(list)
+
+    for menu in selected_menus:
+        for dish_type in ["主菜", "副菜", "汁"]:
+            dish_key = dish_key_map[dish_type]
+            dish_name = menu[dish_key]
+
+            if dish_name == "無し":
+                continue  # 無しはスキップ
+
+            ingredients = menu_data[dish_type][dish_name]["ingredients"]
+            for item, qty in ingredients.items():
+                ingredient_totals[item].append(qty)
 
     # 食材集計処理
     for menu in selected_menus:
@@ -120,47 +132,34 @@ if st.button("買い物リストをまとめる"):
             for item, qty in ingredients.items():  # この行とその後ろのインデントを確認
                 ingredient_totals[item].append(qty)
 
-    # 合算処理（単位付き）
-if selected_main != "無し":
-    ingredients = menu_data["主菜"][selected_main]["ingredients"]
-    # 合算用の処理へ
+# 合計処理関数
+def sum_ingredients(qty_list):
+    total = defaultdict(float)
+    for qty in qty_list:
+        for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "少々", "適量"]:
+            if unit in qty:
+                try:
+                    number = float(qty.replace(unit, "").strip())
+                    total[unit] += number
+                except:
+                    total[unit] += 0  # 数値変換できない場合は無視せず記録
+                break
+        else:
+            total[""] += 1  # 単位なし
+    return "、".join([f"{round(num)}{unit}" if unit else str(round(num)) for unit, num in total.items()])
 
-if selected_side != "無し":
-    ingredients = menu_data["副菜"][selected_side]["ingredients"]
-    # 合算用の処理へ
-
-if selected_soup != "無し":
-    ingredients = menu_data["汁"][selected_soup]["ingredients"]
-    # 合算用の処理へ
-
-    def sum_ingredients(qty_list):
-        total = defaultdict(int)
-        for qty in qty_list:
-            for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "少々", "適量"]:
-                if unit in qty:
-                    try:
-                        number = float(qty.replace(unit, ""))
-                        total[unit] += number
-                    except:
-                        total[unit] += 0  # 単位はあるが数値ではない場合
-                    break
-            else:
-                total[""] += 1  # 単位なし
-
-        return "、".join([f"{round(num)}{unit}" if unit else str(round(num)) for unit, num in total.items()])
-
-    # カテゴリ分け表示
-    categorized = defaultdict(list)
-    for item, qty_list in ingredient_totals.items():
+    # カテゴリ分け（例：野菜・肉・魚…）
+    categorized = defaultdict(dict)
+    for item, qtys in ingredient_totals.items():
         category = category_map.get(item, "その他")
-        total = sum_ingredients(qty_list)
-        categorized[category].append(f"{item}：{total}")
+        categorized[category][item] = sum_ingredients(qtys)
 
-    # カテゴリごとに表示
-    for cat in sorted(categorized):
-        st.subheader(f"【{cat}】")
-        for line in categorized[cat]:
-            st.write(line)
+    # 表示
+    for category in ["野菜", "肉", "魚", "調味料", "その他"]:
+        if category in categorized:
+            st.subheader(f"【{category}】")
+            for item, total in categorized[category].items():
+                st.write(f"- {item}：{total}")
 
     # 作り方リンクの表示
     st.header("作り方リンク")
