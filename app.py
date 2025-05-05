@@ -21,7 +21,8 @@ if password != PASSWORD:
 # ------------------------------
 dish_key_map = {  # ここで定義
     "主菜": "main",
-    "副菜": "side"
+    "副菜": "side",
+    "汁"："soup"
 }
 
 menu_data = {
@@ -45,6 +46,12 @@ menu_data = {
             "link": "https://example.com/misosoup"
         }
     }
+    "汁": {
+        "どさんこ汁": {
+            "ingredients": {"じゃがいも": "2個", "にんじん": "1/2個", "玉ねぎ": "1/2個", "豚こま肉": "150g", "コーン": "50g", "乾燥わかめ": "大さじ1.5"},
+            "link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
+        },
+
 }
 
 category_map = {
@@ -54,11 +61,13 @@ category_map = {
     "きゅうり": "野菜",
     "じゃがいも": "野菜",
     "にんじん": "野菜",
+    "コーン": "野菜",
     "豆腐": "その他",
-    "わかめ": "その他",
+    "乾燥わかめ": "その他",
     "味噌": "その他",
     "鮭": "魚",
     "合挽き肉": "肉",
+    "豚こま肉": "肉",
     "パン粉": "その他",
     "塩": "調味料"
 }
@@ -81,8 +90,10 @@ for i in range(day_count):
 
     main_dish = st.selectbox(f"主菜を選んでください（{i+1}日目）", list(menu_data["主菜"].keys()), key=f"main_{i}")
     side_dish = st.selectbox(f"副菜を選んでください（{i+1}日目）", list(menu_data["副菜"].keys()), key=f"side_{i}")
+    soup_dish = st.selectbox(f"汁を選んでください（{i+1}日目）", list(menu_data["汁"].keys()), key=f"soup_{i}")
 
-    selected_menus.append({"date": date, "main": main_dish, "side": side_dish})
+
+    selected_menus.append({"date": date, "main": main_dish, "side": side_dish, "soup": soup_dish})
 
 # ------------------------------
 # 食材集計＆表示
@@ -93,7 +104,7 @@ if st.button("買い物リストをまとめる"):
 
     # 食材集計処理
     for menu in selected_menus:
-        for dish_type in ["主菜", "副菜"]:
+        for dish_type in ["主菜", "副菜", "汁"]:
             dish_key = dish_key_map[dish_type]
             dish_name = menu[dish_key]
             ingredients = menu_data[dish_type][dish_name]["ingredients"]
@@ -136,7 +147,7 @@ if st.button("買い物リストをまとめる"):
     st.header("作り方リンク")
     for menu in selected_menus:
         st.subheader(f"{menu['date']}の献立")
-        for dish_type in ["主菜", "副菜"]:
+        for dish_type in ["主菜", "副菜", "汁"]:
             dish_key = dish_key_map[dish_type]
             dish_name = menu[dish_key]
             link = menu_data[dish_type][dish_name]["link"]
