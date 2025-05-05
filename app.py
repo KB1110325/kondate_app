@@ -18,8 +18,8 @@ if password != PASSWORD:
 
 # ------------------------------ 
 # データ定義
-# ------------------------------
-dish_key_map = {  # ここで定義
+# ------------------------------ 
+dish_key_map = {
     "主菜": "main",
     "副菜": "side",
     "汁": "soup"
@@ -79,8 +79,7 @@ category_map = {
     "塩": "調味料"
 }
 
-
-# ------------------------------
+# ------------------------------ 
 # アプリ本体
 # ------------------------------
 st.title("献立アプリ")
@@ -95,14 +94,18 @@ for i in range(day_count):
     st.header(f"{i+1}日目の献立")
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i))
 
-    main_dish = st.selectbox(f"主菜を選んでください（{i+1}日目）",["無し"] + list(menu_data["主菜"].keys()), key=f"main_{i}")
-    side_dish = st.selectbox(f"副菜を選んでください（{i+1}日目）",["無し"] + list(menu_data["副菜"].keys()), key=f"side_{i}")
-    soup_dish = st.selectbox(f"汁を選んでください（{i+1}日目）",["無し"] + list(menu_data["汁"].keys()), key=f"soup_{i}")
+    main_dish = st.selectbox(f"主菜を選んでください（{i+1}日目）", ["無し"] + list(menu_data["主菜"].keys()), key=f"main_{i}")
+    side_dish = st.selectbox(f"副菜を選んでください（{i+1}日目）", ["無し"] + list(menu_data["副菜"].keys()), key=f"side_{i}")
+    soup_dish = st.selectbox(f"汁を選んでください（{i+1}日目）", ["無し"] + list(menu_data["汁"].keys()), key=f"soup_{i}")
 
+    selected_menus.append({
+        "date": date,
+        "main": main_dish,
+        "side": side_dish,
+        "soup": soup_dish
+    })
 
-    selected_menus.append({"date": date, "main": main_dish, "side": side_dish, "soup": soup_dish})
-
-# ------------------------------
+# ------------------------------ 
 # 食材集計＆表示
 # ------------------------------
 if st.button("買い物リストをまとめる"):
@@ -113,42 +116,29 @@ if st.button("買い物リストをまとめる"):
         for dish_type in ["主菜", "副菜", "汁"]:
             dish_key = dish_key_map[dish_type]
             dish_name = menu[dish_key]
-
             if dish_name == "無し":
-                continue  # 無しはスキップ
-
+                continue
             ingredients = menu_data[dish_type][dish_name]["ingredients"]
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
-    # 食材集計処理
-    for menu in selected_menus:
-        for dish_type in ["主菜", "副菜", "汁"]:
-            dish_key = dish_key_map[dish_type]
-            dish_name = menu[dish_key]
-            ingredients = menu_data[dish_type][dish_name]["ingredients"]
+    # 合計処理関数
+    def sum_ingredients(qty_list):
+        total = defaultdict(float)
+        for qty in qty_list:
+            for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "少々", "適量"]:
+                if unit in qty:
+                    try:
+                        number = float(qty.replace(unit, "").strip())
+                        total[unit] += number
+                    except:
+                        total[unit] += 0
+                    break
+            else:
+                total[""] += 1
+        return "、".join([f"{round(num)}{unit}" if unit else str(round(num)) for unit, num in total.items()])
 
-            # ここでインデントを揃える
-            for item, qty in ingredients.items():  # この行とその後ろのインデントを確認
-                ingredient_totals[item].append(qty)
-
-# 合計処理関数
-def sum_ingredients(qty_list):
-    total = defaultdict(float)
-    for qty in qty_list:
-        for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "少々", "適量"]:
-            if unit in qty:
-                try:
-                    number = float(qty.replace(unit, "").strip())
-                    total[unit] += number
-                except:
-                    total[unit] += 0  # 数値変換できない場合は無視せず記録
-                break
-        else:
-            total[""] += 1  # 単位なし
-    return "、".join([f"{round(num)}{unit}" if unit else str(round(num)) for unit, num in total.items()])
-
-    # カテゴリ分け（例：野菜・肉・魚…）
+    # カテゴリごとに集計
     categorized = defaultdict(dict)
     for item, qtys in ingredient_totals.items():
         category = category_map.get(item, "その他")
@@ -168,5 +158,6 @@ def sum_ingredients(qty_list):
         for dish_type in ["主菜", "副菜", "汁"]:
             dish_key = dish_key_map[dish_type]
             dish_name = menu[dish_key]
-            link = menu_data[dish_type][dish_name]["link"]
-            st.markdown(f"- [{dish_type}：{dish_name}]({link})")
+            if dish_name != "無し":
+                link = menu_data[dish_type][dish_name]["link"]
+                st.markdown(f"- [{dish_type}：{dish_name}]({link})")
