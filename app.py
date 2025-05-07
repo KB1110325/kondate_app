@@ -15,33 +15,32 @@ dish_key_map = {
 
 menu_data = {
     "主菜": {
-        "ハンバーグ": {
-            "ingredients": {"玉ねぎ": "1個", "合挽き肉": "300g", "パン粉": "50g"},
-            "link": "https://example.com/hamburg"
+        "麻婆豆腐": {
+            "ingredients": {"豆腐": "1丁", "豚挽き肉": "150g", "にんにく": "少々", "しょうが": "少々", "豆板醤": "小さじ0.5"},
+            "link": "https://www.instagram.com/reel/C9KRBhVS9E8/?igsh=MWc1YWUyeTd3MG9qcQ=="
         },
+        "ミルフィーユかつ": {
+            "ingredients": {豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
+            "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
+        }
         "焼き魚": {
             "ingredients": {"鮭": "2切れ", "塩": "少々"},
             "link": "https://example.com/grilled_fish"
         }
     },
     "副菜": {
-        "サラダ": {
-            "ingredients": {"レタス": "1玉", "トマト": "2個", "きゅうり": "1本"},
-            "link": "https://example.com/salad"
+        "基本サラダ": {
+            "ingredients": {"レタス": "1玉", "トマト": "2個", "きゅうり": "1本", "アボカド": "1個"},
+            "link": ""
         },
-        "味噌汁": {
-            "ingredients": {"豆腐": "1丁", "わかめ": "適量", "味噌": "大さじ2"},
-            "link": "https://example.com/misosoup"
+        "やみつき甘辛れんこん": {
+            "ingredients": {"れんこん": "150g"},
+            "link": "https://www.instagram.com/p/CJsa_I9JQr7/?igsh=MXA3Y2pqaDVrYmkxMg=="
         }
     },
     "汁": {
         "どさんこ汁": {
-            "ingredients": {
-                "じゃがいも": "2個",
-                "にんじん": "1/2個",
-                "玉ねぎ": "1/2個",
-                "豚こま肉": "150g",
-                "コーン": "50g",
+            "ingredients": {"じゃがいも": "2個","にんじん": "1/2個","玉ねぎ": "1/2個","豚こま肉": "150g","コーン": "50g",
                 "乾燥わかめ": "大さじ1.5"
             },
             "link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
@@ -57,14 +56,21 @@ category_map = {
     "じゃがいも": "野菜",
     "にんじん": "野菜",
     "コーン": "野菜",
+    "アボカド": "野菜",
+    "れんこん": "野菜",
+    "鮭": "魚",
+    "豚挽き肉": "肉",
+    "豚こま肉": "肉",
+    "豚ばら肉": "肉",
+    "パン粉": "その他",
+    "小麦粉": "その他",
+    "卵": "その他",
     "豆腐": "その他",
     "乾燥わかめ": "その他",
-    "味噌": "調味料",
-    "鮭": "魚",
-    "合挽き肉": "肉",
-    "豚こま肉": "肉",
-    "パン粉": "その他",
-    "塩": "調味料"
+    "にんにく": "その他",
+    "しょうが": "その他",
+    "豆板醤": "調味料",
+    "味噌": "調味料"
 }
 
 # 保存ファイル名
@@ -139,7 +145,7 @@ if st.button("買い物リストをまとめる"):
     def sum_ingredients(qty_list):
         total = defaultdict(float)
         for qty in qty_list:
-            for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "少々", "適量"]:
+            for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
                 if unit in qty:
                     try:
                         number = float(qty.replace(unit, "").strip())
