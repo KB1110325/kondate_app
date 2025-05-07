@@ -8,13 +8,27 @@ from collections import defaultdict
 # 設定したいパスワード（好きな文字に変更OK）
 PASSWORD = "kondate1122"
 
-# パスワード入力欄を表示
-password = st.text_input("パスワードを入力してください", type="password")
+# セッションステートに認証情報がなければ初期化
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
 
-# パスワードが正しいか判定
-if password != PASSWORD:
-    st.warning("正しいパスワードを入力してください。")
-    st.stop()
+# ログアウト処理
+if st.session_state.authenticated:
+    if st.button("ログアウト"):
+        st.session_state.authenticated = False
+        st.experimental_rerun()  # 再読み込みしてパスワード入力に戻す
+
+# ログインしていない場合、パスワード入力
+if not st.session_state.authenticated:
+    password = st.text_input("パスワードを入力してください", type="password")
+    if st.button("ログイン"):
+        if password == PASSWORD:
+            st.session_state.authenticated = True
+            st.success("ログインに成功しました。")
+            st.experimental_rerun()  # 再読み込みしてパスワード欄を消す
+        else:
+            st.error("パスワードが違います。")
+    st.stop()  # ログイン失敗または入力中は処理を止める
 
 # ------------------------------ 
 # データ定義
