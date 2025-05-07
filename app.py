@@ -16,7 +16,7 @@ if "authenticated" not in st.session_state:
 if st.session_state.authenticated:
     if st.button("ログアウト"):
         st.session_state.authenticated = False
-        st.experimental_rerun()  # 再読み込みしてパスワード入力に戻す
+        st.rerun()  # 再読み込みしてパスワード入力に戻す
 
 # ログインしていない場合、パスワード入力
 if not st.session_state.authenticated:
@@ -25,7 +25,7 @@ if not st.session_state.authenticated:
         if password == PASSWORD:
             st.session_state.authenticated = True
             st.success("ログインに成功しました。")
-            st.experimental_rerun()  # 再読み込みしてパスワード欄を消す
+            st.rerun()  # 再読み込みしてパスワード欄を消す
         else:
             st.error("パスワードが違います。")
     st.stop()  # ログイン失敗または入力中は処理を止める
