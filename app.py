@@ -145,6 +145,7 @@ if st.button("買い物リストをまとめる"):
 
 from fractions import Fraction
 
+# 材料の数値を合計する関数
 def sum_ingredients(qty_list):
     total = defaultdict(Fraction)
     for qty in qty_list:
@@ -161,17 +162,35 @@ def sum_ingredients(qty_list):
             total[""] += 1
     return "、".join([f"{float(num):g}{unit}" if unit else str(float(num)) for unit, num in total.items()])
 
+
+# --- まとめボタンが押されたとき ---
+if st.button("まとめ"):
+    ingredient_totals = defaultdict(list)
+
+    # 選択された献立から材料を集計
+    for menu in selected_menus:
+        for dish_type in ["主菜", "副菜", "汁"]:
+            dish_key = dish_key_map[dish_type]
+            dish_name = menu[dish_key]
+            if dish_name != "無し":
+                ingredients = menu_data[dish_type][dish_name]["ingredients"]
+                for item, qty in ingredients.items():
+                    ingredient_totals[item].append(qty)
+
+    # カテゴリごとに分けて表示
     categorized = defaultdict(dict)
     for item, qtys in ingredient_totals.items():
         category = category_map.get(item, "その他")
         categorized[category][item] = sum_ingredients(qtys)
 
+    st.header("買い物リスト")
     for category in ["野菜", "肉", "魚", "調味料", "その他"]:
         if category in categorized:
             st.subheader(f"【{category}】")
             for item, total in categorized[category].items():
                 st.write(f"- {item}：{total}")
 
+    # 作り方リンクの表示
     st.header("作り方リンク")
     for menu in selected_menus:
         st.subheader(f"{menu['date']}の献立")
