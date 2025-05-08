@@ -122,9 +122,6 @@ for i in range(day_count):
 # ------------------------------
 # 買い物リスト作成＆保存
 # ------------------------------
-if st.button("買い物リストをまとめる"):
-    st.header("買い物リスト")
-    ingredient_totals = defaultdict(list)
 
     for menu in selected_menus:
         date_str = str(menu["date"])
@@ -164,7 +161,7 @@ def sum_ingredients(qty_list):
 
 
 # --- まとめボタンが押されたとき ---
-if st.button("まとめ"):
+if st.button("買い物リストをまとめる"):
     ingredient_totals = defaultdict(list)
 
     # 選択された献立から材料を集計
