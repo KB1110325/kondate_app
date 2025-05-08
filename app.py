@@ -5,22 +5,15 @@ import os
 from collections import defaultdict
 from fractions import Fraction
 
-import streamlit as st
-
 # --- パスワード認証 ---
-
-# 設定したいパスワード（好きな文字に変更OK）
 PASSWORD = "kondate1122"
-
-# パスワード入力欄を表示
 password = st.text_input("パスワードを入力してください", type="password")
-
-# パスワードが正しいか判定
 if password != PASSWORD:
     st.warning("正しいパスワードを入力してください。")
     st.stop()
 
-# ここから下に、もともとのアプリのコードを書く
+# 認証に成功したらここからアプリ開始
+st.title("献立アプリ")
 
 
 # ------------------------------
@@ -140,7 +133,6 @@ for i in range(day_count):
 # ------------------------------
 # 買い物リスト作成＆保存
 # ------------------------------
-if st.button("買い物リストをまとめる"):
     st.header("買い物リスト")
     ingredient_totals = defaultdict(list)
 
@@ -161,7 +153,6 @@ if st.button("買い物リストをまとめる"):
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
-from fractions import Fraction
 
 # 材料の数値を合計する関数
 def sum_ingredients(qty_list):
