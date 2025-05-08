@@ -5,6 +5,24 @@ import os
 from collections import defaultdict
 from fractions import Fraction
 
+import streamlit as st
+
+# --- パスワード認証 ---
+
+# 設定したいパスワード（好きな文字に変更OK）
+PASSWORD = "kondate1122"
+
+# パスワード入力欄を表示
+password = st.text_input("パスワードを入力してください", type="password")
+
+# パスワードが正しいか判定
+if password != PASSWORD:
+    st.warning("正しいパスワードを入力してください。")
+    st.stop()
+
+# ここから下に、もともとのアプリのコードを書く
+
+
 # ------------------------------
 # データ定義
 # ------------------------------
@@ -122,6 +140,9 @@ for i in range(day_count):
 # ------------------------------
 # 買い物リスト作成＆保存
 # ------------------------------
+if st.button("買い物リストをまとめる"):
+    st.header("買い物リスト")
+    ingredient_totals = defaultdict(list)
 
     for menu in selected_menus:
         date_str = str(menu["date"])
