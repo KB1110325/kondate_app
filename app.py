@@ -22,7 +22,7 @@ menu_data = {
         "ミルフィーユかつ": {
             "ingredients": {"豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
             "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
-        }
+        },
         "焼き魚": {
             "ingredients": {"鮭": "2切れ", "塩": "小さじ1"},
             "link": "https://example.com/grilled_fish"
