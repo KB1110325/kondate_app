@@ -3,6 +3,7 @@ import datetime
 import json
 import os
 from collections import defaultdict
+from fractions import Fraction
 
 # ------------------------------
 # データ定義
@@ -142,20 +143,23 @@ if st.button("買い物リストをまとめる"):
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
-    def sum_ingredients(qty_list):
-        total = defaultdict(float)
-        for qty in qty_list:
-            for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
-                if unit in qty:
-                    try:
-                        number = float(qty.replace(unit, "").strip())
-                        total[unit] += number
-                    except:
-                        total[unit] += 0
-                    break
-            else:
-                total[""] += 1
-        return "、".join([f"{round(num)}{unit}" if unit else str(round(num)) for unit, num in total.items()])
+from fractions import Fraction
+
+def sum_ingredients(qty_list):
+    total = defaultdict(Fraction)
+    for qty in qty_list:
+        for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
+            if unit in qty:
+                num_part = qty.replace(unit, "").strip()
+                try:
+                    number = Fraction(num_part)
+                    total[unit] += number
+                except:
+                    pass
+                break
+        else:
+            total[""] += 1
+    return "、".join([f"{float(num):g}{unit}" if unit else str(float(num)) for unit, num in total.items()])
 
     categorized = defaultdict(dict)
     for item, qtys in ingredient_totals.items():
