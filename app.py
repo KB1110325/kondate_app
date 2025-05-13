@@ -156,14 +156,19 @@ for i in range(day_count):
     selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()))
     main_dishes = list(menu_data["主菜"][selected_category].keys())
     selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, max_selections=3)
+    selected_main_dishes_with_category = [(selected_category, dish) for dish in selected_main_dishes]
     st.subheader("副菜の選択")
     side_dishes = list(menu_data["副菜"].keys())
     selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, max_selections=3)
     st.subheader("汁の選択")
     soups = list(menu_data["汁"].keys())
     selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, max_selections=3)
-    selected_menus.append({"date": date, "main": main_dishes, "side": side_dishes, "soup": soup_dishes})
-
+    selected_menus.append({
+      "date": date,
+      "main": selected_main_dishes_with_category,
+      "side": selected_side_dishes,
+      "soup": selected_soups
+})
 # ------------------------------
 # まとめボタン処理
 # ------------------------------
