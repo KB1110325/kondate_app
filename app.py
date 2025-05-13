@@ -47,11 +47,10 @@ menu_data = {
             "ingredients": {"豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
             "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
         },        
-　　　　"エビカツ": {
+        "エビカツ": {
             "ingredients": {"むき海老": "200g", "はんぺん": "1枚", "パン粉": "大さじ3", "片栗粉": "大さじ1", "鶏がらのもと": "小さじ1", "にんにくチューブ": "適量"},
             "link": "https://www.instagram.com/p/Cv9qonmJvDD/?img_index=5&igsh=MWFzMXU1aDlyMG5mcQ%3D%3D"
         },
-
         "タルタル鮭フライ": {
             "ingredients": {"鮭": "2切れ", "薄力粉": "大さじ2", "パン粉": "適量", "卵": "1個", "玉ねぎ": "1/8個", "マヨネーズ": "大さじ3"},
             "link": "https://www.instagram.com/p/C4wG1VDBfJE/?igsh=MXNoaGxxbnFicWVwdw%3D%3D&img_index=1"
@@ -71,11 +70,11 @@ menu_data = {
         "どさんこ汁": {
             "ingredients": {"じゃがいも": "2個", "にんじん": "1/2個", "玉ねぎ": "1/2個",
                 "豚こま肉": "150g", "コーン": "50g", "乾燥わかめ": "大さじ1.5"},
-　　　　　　"link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
- 　　   },
+             "link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
+        },
         "春キャベツの味噌スープ": {
             "ingredients": {"キャベツ": "1/8個", "にんじん": "1/2本", "ウインナー": "5本", "コーン": "大さじ4", "豆乳": "300ml", "コンソメ": "1個", "しょうがチューブ": "少々"},
-            "link": ""
+            "link": "https://www.instagram.com/reel/DIVoFpUBxQj/?igsh=MWN3bmI4ZGtzdW5uaw%3D%3D"
         },
         }
     }
