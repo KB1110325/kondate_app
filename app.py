@@ -23,6 +23,7 @@ dish_key_map = {
 
 menu_data = {
     "主菜": {
+        "魚料理": {
         "麻婆豆腐": {
             "ingredients": {"豆腐": "1丁", "豚挽き肉": "150g", "にんにく": "少々", "しょうが": "少々", "豆板醤": "小さじ0.5"},
             "link": "https://www.instagram.com/reel/C9KRBhVS9E8/?igsh=MWc1YWUyeTd3MG9qcQ=="
@@ -38,7 +39,9 @@ menu_data = {
         "タラのホイル焼き": {
             "ingredients": {"タラ": "2切れ", "しめじ": "1個", "玉ねぎ": "1/4個", "しょうがチューブ": "適量",},
             "link": "https://www.instagram.com/p/CHuF6x_JQUj/?igsh=Zm5ibDRycWM4enp5&img_index=1"
-        },
+        }
+     },
+        "肉料理": {
         "からあげ": {
             "ingredients": {"鶏もも肉": "1枚", "にんにく": "少々", "しょうが": "少々", "鶏がらのもと": "小さじ1/2", "片栗粉": "適量"},
             "link": "https://cookpad.com/jp/recipes/19108352-%E7%B5%B6%E5%93%81-%E3%81%8B%E3%82%89%E6%8F%9A%E3%81%92"
@@ -50,11 +53,14 @@ menu_data = {
         "エビカツ": {
             "ingredients": {"むき海老": "200g", "はんぺん": "1枚", "パン粉": "大さじ3", "片栗粉": "大さじ1", "鶏がらのもと": "小さじ1", "にんにくチューブ": "適量"},
             "link": "https://www.instagram.com/p/Cv9qonmJvDD/?img_index=5&igsh=MWFzMXU1aDlyMG5mcQ%3D%3D"
-        },
+        }
+     },
+       "丼もの": {
         "タルタル鮭フライ": {
             "ingredients": {"鮭": "2切れ", "薄力粉": "大さじ2", "パン粉": "適量", "卵": "1個", "玉ねぎ": "1/8個", "マヨネーズ": "大さじ3"},
             "link": "https://www.instagram.com/p/C4wG1VDBfJE/?igsh=MXNoaGxxbnFicWVwdw%3D%3D&img_index=1"
         }
+      }
     },
     "副菜": {
         "基本サラダ": {
@@ -68,7 +74,7 @@ menu_data = {
     },
     "汁": {
         "どさんこ汁": {
-            "ingredients": {"じゃがいも": "2個", "にんじん": "1/2個", "玉ねぎ": "1/2個",
+            "ingredients": {"じゃがいも": "2個", "にんじん": "1/2本", "玉ねぎ": "1/2個",
                 "豚こま肉": "150g", "コーン": "50g", "乾燥わかめ": "大さじ1.5"},
              "link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
         },
@@ -146,9 +152,18 @@ selected_menus = []
 for i in range(day_count):
     st.header(f"{i+1}日目の献立")
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i))
-    main_dish = st.selectbox(f"主菜を選んでください（{i+1}日目）", ["無し"] + list(menu_data["主菜"].keys()), key=f"main_{i}")
-    side_dish = st.selectbox(f"副菜を選んでください（{i+1}日目）", ["無し"] + list(menu_data["副菜"].keys()), key=f"side_{i}")
-    soup_dish = st.selectbox(f"汁を選んでください（{i+1}日目）", ["無し"] + list(menu_data["汁"].keys()), key=f"soup_{i}")
+    st.subheader("主菜の選択")
+
+selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()))
+main_dishes = list(menu_data["主菜"][selected_category].keys())
+
+selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, max_selections=3)
+    st.subheader("副菜の選択")
+side_dishes = list(menu_data["副菜"].keys())
+selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, max_selections=3)
+    st.subheader("汁の選択")
+soups = list(menu_data["汁"].keys())
+selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, max_selections=3)
     selected_menus.append({"date": date, "main": main_dish, "side": side_dish, "soup": soup_dish})
 
 # ------------------------------
@@ -158,20 +173,20 @@ if st.button("買い物リストをまとめる"):
     ingredient_totals = defaultdict(list)
 
     for menu in selected_menus:
-        date_str = str(menu["date"])
-        save_menu_to_json(date_str, {
-            "main": menu["main"],
-            "side": menu["side"],
-            "soup": menu["soup"]
-        })
+        for category, dish_name in menu["main"]:
+            ingredients = menu_data["主菜"][category][dish_name]["ingredients"]
+            for item, qty in ingredients.items():
+                ingredient_totals[item].append(qty)
 
-        for dish_type in ["主菜", "副菜", "汁"]:
-            dish_key = dish_key_map[dish_type]
-            dish_name = menu[dish_key]
-            if dish_name != "無し":
-                ingredients = menu_data[dish_type][dish_name]["ingredients"]
-                for item, qty in ingredients.items():
-                    ingredient_totals[item].append(qty)
+        for dish_name in menu["side"]:
+            ingredients = menu_data["副菜"][dish_name]["ingredients"]
+            for item, qty in ingredients.items():
+                ingredient_totals[item].append(qty)
+
+        for dish_name in menu["soup"]:
+            ingredients = menu_data["汁"][dish_name]["ingredients"]
+            for item, qty in ingredients.items():
+                ingredient_totals[item].append(qty)
 
     # カテゴリごとに集計表示
     categorized = defaultdict(dict)
@@ -196,15 +211,26 @@ if st.button("買い物リストをまとめる"):
     st.header("📖 作り方リンク")
     for menu in selected_menus:
         st.subheader(f"{menu['date']} の献立")
-        for dish_type in ["主菜", "副菜", "汁"]:
-            dish_key = dish_key_map[dish_type]
-            dish_name = menu[dish_key]
-            if dish_name != "無し":
-                link = menu_data[dish_type][dish_name]["link"]
-                if link:
-                    st.markdown(f"- [{dish_type}：{dish_name}]({link})")
-                else:
-                    st.write(f"- {dish_type}：{dish_name}（リンクなし）")
+       for category, dish_name in menu["main"]:
+            link = menu_data["主菜"][category][dish_name]["link"]
+            if link:
+                st.markdown(f"- 主菜：[{dish_name}]({link})")
+            else:
+                st.write(f"- 主菜：{dish_name}（リンクなし）")
+
+        for dish_name in menu["side"]:
+            link = menu_data["副菜"][dish_name]["link"]
+            if link:
+                st.markdown(f"- 副菜：[{dish_name}]({link})")
+            else:
+                st.write(f"- 副菜：{dish_name}（リンクなし）")
+
+        for dish_name in menu["soup"]:
+            link = menu_data["汁"][dish_name]["link"]
+            if link:
+                st.markdown(f"- 汁：[{dish_name}]({link})")
+            else:
+                st.write(f"- 汁：{dish_name}（リンクなし）")
 
 # ------------------------------
 # 過去の献立をカレンダーから表示
