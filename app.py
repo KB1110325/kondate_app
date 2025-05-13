@@ -153,17 +153,15 @@ for i in range(day_count):
     st.header(f"{i+1}日目の献立")
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i))
     st.subheader("主菜の選択")
-
-selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()))
-main_dishes = list(menu_data["主菜"][selected_category].keys())
-
-selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, max_selections=3)
+    selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()))
+    main_dishes = list(menu_data["主菜"][selected_category].keys())
+    selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, max_selections=3)
     st.subheader("副菜の選択")
-side_dishes = list(menu_data["副菜"].keys())
-selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, max_selections=3)
+    side_dishes = list(menu_data["副菜"].keys())
+    selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, max_selections=3)
     st.subheader("汁の選択")
-soups = list(menu_data["汁"].keys())
-selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, max_selections=3)
+    soups = list(menu_data["汁"].keys())
+    selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, max_selections=3)
     selected_menus.append({"date": date, "main": main_dish, "side": side_dish, "soup": soup_dish})
 
 # ------------------------------
