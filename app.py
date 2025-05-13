@@ -75,7 +75,6 @@ menu_data = {
         "春キャベツの味噌スープ": {
             "ingredients": {"キャベツ": "1/8個", "にんじん": "1/2本", "ウインナー": "5本", "コーン": "大さじ4", "豆乳": "300ml", "コンソメ": "1個", "しょうがチューブ": "少々"},
             "link": "https://www.instagram.com/reel/DIVoFpUBxQj/?igsh=MWN3bmI4ZGtzdW5uaw%3D%3D"
-        },
         }
     }
 }
