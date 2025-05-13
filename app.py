@@ -162,7 +162,7 @@ for i in range(day_count):
     st.subheader("汁の選択")
     soups = list(menu_data["汁"].keys())
     selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, max_selections=3)
-    selected_menus.append({"date": date, "main": main_dish, "side": side_dish, "soup": soup_dish})
+    selected_menus.append({"date": date, "main": main_dishes, "side": side_dishes, "soup": soup_dishes})
 
 # ------------------------------
 # まとめボタン処理
