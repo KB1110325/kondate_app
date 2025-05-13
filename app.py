@@ -6,7 +6,7 @@ from collections import defaultdict
 from fractions import Fraction
 
 # --- パスワード認証 ---
-PASSWORD = "kondate1122"
+PASSWORD = "k1122"
 password = st.text_input("パスワードを入力してください", type="password")
 if password != PASSWORD:
     st.warning("正しいパスワードを入力してください。")
@@ -40,9 +40,9 @@ menu_data = {
             "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
         },
 
-        "焼き魚": {
-            "ingredients": {"鮭": "2切れ", "塩": "小さじ1"},
-            "link": "https://example.com/grilled_fish"
+        "タルタル鮭フライ": {
+            "ingredients": {"鮭": "2切れ", "薄力粉": "大さじ2", "パン粉": "適量", "卵": "1個", "玉ねぎ": "1/8個", "マヨネーズ": "大さじ3"},
+            "link": "https://www.instagram.com/p/C4wG1VDBfJE/?igsh=MXNoaGxxbnFicWVwdw%3D%3D&img_index=1"
         }
     },
     "副菜": {
@@ -73,7 +73,7 @@ category_map = {
     "豚挽き肉": "肉", "豚こま肉": "肉", "豚ばら肉": "肉", "鶏もも肉": "肉",
     "パン粉": "その他", "小麦粉": "その他", "卵": "その他", "豆腐": "その他",
     "乾燥わかめ": "その他", "にんにく": "その他", "しょうが": "その他",
-    "豆板醤": "調味料", "味噌": "調味料", "塩": "調味料", "鶏がらのもと": "調味料", "片栗粉": "調味料"
+    "豆板醤": "調味料", "味噌": "調味料", "塩": "調味料", "鶏がらのもと": "調味料", "片栗粉": "調味料", "マヨネーズ": "調味料"
 }
 
 DATA_FILE = "kondate_data.json"
