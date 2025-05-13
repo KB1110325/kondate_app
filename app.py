@@ -27,9 +27,17 @@ menu_data = {
             "ingredients": {"豆腐": "1丁", "豚挽き肉": "150g", "にんにく": "少々", "しょうが": "少々", "豆板醤": "小さじ0.5"},
             "link": "https://www.instagram.com/reel/C9KRBhVS9E8/?igsh=MWc1YWUyeTd3MG9qcQ=="
         },
-        "ミルフィーユかつ": {
-            "ingredients": {"豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
-            "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
+        "サバの味噌煮": {
+            "ingredients": {"サバ": "2切れg", "しょうがチューブ": "適量"},
+            "link": "https://delishkitchen.tv/recipes/449561114036929616"
+        },
+        "白身魚のマヨ醤油": {
+            "ingredients": {"タラ": "3切れ"},
+            "link": "https://www.instagram.com/p/DINcp4Mp7sS/?igsh=azd2b3k2ZDVjMGtp&img_index=1"
+        },
+        "タラのホイル焼き": {
+            "ingredients": {"タラ": "2切れ", "しめじ": "1個", "玉ねぎ": "1/4個", "しょうがチューブ": "適量",},
+            "link": "https://www.instagram.com/p/CHuF6x_JQUj/?igsh=Zm5ibDRycWM4enp5&img_index=1"
         },
         "からあげ": {
             "ingredients": {"鶏もも肉": "1枚", "にんにく": "少々", "しょうが": "少々", "鶏がらのもと": "小さじ1/2", "片栗粉": "適量"},
@@ -38,6 +46,10 @@ menu_data = {
         "ミルフィーユかつ": {
             "ingredients": {"豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
             "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
+        },        
+　　　　"エビカツ": {
+            "ingredients": {"むき海老": "200g", "はんぺん": "1枚", "パン粉": "大さじ3", "片栗粉": "大さじ1", "鶏がらのもと": "小さじ1", "にんにくチューブ": "適量"},
+            "link": "https://www.instagram.com/p/Cv9qonmJvDD/?img_index=5&igsh=MWFzMXU1aDlyMG5mcQ%3D%3D"
         },
 
         "タルタル鮭フライ": {
@@ -57,11 +69,14 @@ menu_data = {
     },
     "汁": {
         "どさんこ汁": {
-            "ingredients": {
-                "じゃがいも": "2個", "にんじん": "1/2個", "玉ねぎ": "1/2個",
-                "豚こま肉": "150g", "コーン": "50g", "乾燥わかめ": "大さじ1.5"
-            },
-            "link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
+            "ingredients": {"じゃがいも": "2個", "にんじん": "1/2個", "玉ねぎ": "1/2個",
+                "豚こま肉": "150g", "コーン": "50g", "乾燥わかめ": "大さじ1.5"},
+　　　　　　"link": "https://www.instagram.com/p/DH5eKCGzT5c/?img_index=5&igsh=MWxweW4zZGM3aW1qdA=="
+ 　　   },
+        "春キャベツの味噌スープ": {
+            "ingredients": {"キャベツ": "1/8個", "にんじん": "1/2本", "ウインナー": "5本", "コーン": "大さじ4", "豆乳": "300ml", "コンソメ": "1個", "しょうがチューブ": "少々"},
+            "link": ""
+        },
         }
     }
 }
@@ -69,11 +84,12 @@ menu_data = {
 category_map = {
     "玉ねぎ": "野菜", "レタス": "野菜", "トマト": "野菜", "きゅうり": "野菜",
     "じゃがいも": "野菜", "にんじん": "野菜", "コーン": "野菜", "アボカド": "野菜", "れんこん": "野菜",
-    "鮭": "魚",
-    "豚挽き肉": "肉", "豚こま肉": "肉", "豚ばら肉": "肉", "鶏もも肉": "肉",
+    "鮭": "魚", "むき海老": "魚", "サバ": "魚", "タラ": "魚",
+    "豚挽き肉": "肉", "豚こま肉": "肉", "豚ばら肉": "肉", "鶏もも肉": "肉", "ウインナー": "肉",
     "パン粉": "その他", "小麦粉": "その他", "卵": "その他", "豆腐": "その他",
-    "乾燥わかめ": "その他", "にんにく": "その他", "しょうが": "その他",
-    "豆板醤": "調味料", "味噌": "調味料", "塩": "調味料", "鶏がらのもと": "調味料", "片栗粉": "調味料", "マヨネーズ": "調味料"
+    "乾燥わかめ": "その他", "にんにく": "その他", "しょうが": "その他", "豆乳": "その他",
+    "豆板醤": "調味料", "味噌": "調味料", "塩": "調味料", "鶏がらのもと": "調味料", "片栗粉": "調味料", "マヨネーズ": "調味料", "にんにくチューブ": "調味料", "しょうがチューブ": "調味料", "コンソメ": "調味料"
+
 }
 
 DATA_FILE = "kondate_data.json"
@@ -104,7 +120,7 @@ def load_menu_from_json(date_str):
 def sum_ingredients(qty_list):
     total = defaultdict(Fraction)
     for qty in qty_list:
-        for unit in ["個", "枚", "本", "g", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
+        for unit in ["個", "枚", "本", "g", "ml", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
             if unit in qty:
                 num_part = qty.replace(unit, "").strip()
                 try:
