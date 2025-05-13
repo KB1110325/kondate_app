@@ -96,11 +96,10 @@ category_map = {
 
 }
 
+# ---- JSON保存ファイル ----
 DATA_FILE = "kondate_data.json"
 
-# ------------------------------
-# データ保存・読み込み
-# ------------------------------
+# ---- データ保存・読み込み ----
 def save_menu_to_json(date_str, menu):
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -131,12 +130,11 @@ def sum_ingredients(qty_list):
                     number = Fraction(num_part)
                     total[unit] += number
                 except:
-                    pass
+                    total[unit] += 1  # 単位はあるが数値として変換できない → 1つと仮定
                 break
         else:
             total[""] += 1
     return "、".join([f"{float(num):g}{unit}" if unit else str(float(num)) for unit, num in total.items()])
-
 # ------------------------------
 # アプリUI
 # ------------------------------
@@ -151,27 +149,45 @@ selected_menus = []
 
 for i in range(day_count):
     st.header(f"{i+1}日目の献立")
-    date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i))
+    date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i), key=f"date_{i}")
+
     st.subheader("主菜の選択")
-    selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()))
+    selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()), key=f"main_cat_{i}")
     main_dishes = list(menu_data["主菜"][selected_category].keys())
-    selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, max_selections=3)
+    selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, key=f"main_{i}")
+    if len(selected_main_dishes) > 3:
+        st.warning("主菜は最大3つまで選択できます。")
+    selected_main_dishes = selected_main_dishes[:3]
     selected_main_dishes_with_category = [(selected_category, dish) for dish in selected_main_dishes]
+
     st.subheader("副菜の選択")
     side_dishes = list(menu_data["副菜"].keys())
-    selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, max_selections=3)
+    selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, key=f"side_{i}")
+    if len(selected_side_dishes) > 3:
+        st.warning("副菜は最大3つまで選択できます。")
+    selected_side_dishes = selected_side_dishes[:3]
+
     st.subheader("汁の選択")
     soups = list(menu_data["汁"].keys())
-    selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, max_selections=3)
+    selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, key=f"soup_{i}")
+    if len(selected_soups) > 3:
+        st.warning("汁物は最大3つまで選択できます。")
+    selected_soups = selected_soups[:3]
+
     selected_menus.append({
-      "date": date,
-      "main": selected_main_dishes_with_category,
-      "side": selected_side_dishes,
-      "soup": selected_soups
-})
-# ------------------------------
-# まとめボタン処理
-# ------------------------------
+        "date": str(date),
+        "main": selected_main_dishes_with_category,
+        "side": selected_side_dishes,
+        "soup": selected_soups
+    })
+
+# ---- 保存ボタン ----
+if st.button("この献立を保存する"):
+    for menu in selected_menus:
+        save_menu_to_json(menu["date"], menu)
+    st.success("献立を保存しました！")
+
+# ---- 買い物リストまとめ ----
 if st.button("買い物リストをまとめる"):
     ingredient_totals = defaultdict(list)
 
@@ -191,13 +207,7 @@ if st.button("買い物リストをまとめる"):
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
-    # カテゴリごとに集計表示
-    categorized = defaultdict(dict)
-    for item, qtys in ingredient_totals.items():
-        category = category_map.get(item, "その他")
-        categorized[category][item] = sum_ingredients(qtys)
-
-    # ✅ 一度だけ表示される「買い物リスト」
+    # カテゴリごとにまとめて表示
     st.header("🛒 買い物リスト")
     categorized = defaultdict(dict)
     for item, qtys in ingredient_totals.items():
@@ -210,7 +220,6 @@ if st.button("買い物リストをまとめる"):
             for item, total in categorized[category].items():
                 st.write(f"- {item}：{total}")
 
-    # ✅ 一度だけ表示される「作り方リンク」
     st.header("📖 作り方リンク")
     for menu in selected_menus:
         st.subheader(f"{menu['date']} の献立")
@@ -220,14 +229,12 @@ if st.button("買い物リストをまとめる"):
                 st.markdown(f"- 主菜：[{dish_name}]({link})")
             else:
                 st.write(f"- 主菜：{dish_name}（リンクなし）")
-
         for dish_name in menu["side"]:
             link = menu_data["副菜"][dish_name]["link"]
             if link:
                 st.markdown(f"- 副菜：[{dish_name}]({link})")
             else:
                 st.write(f"- 副菜：{dish_name}（リンクなし）")
-
         for dish_name in menu["soup"]:
             link = menu_data["汁"][dish_name]["link"]
             if link:
@@ -235,16 +242,14 @@ if st.button("買い物リストをまとめる"):
             else:
                 st.write(f"- 汁：{dish_name}（リンクなし）")
 
-# ------------------------------
-# 過去の献立をカレンダーから表示
-# ------------------------------
+# ---- 過去の献立表示 ----
 st.header("📅 カレンダーから過去の献立を確認")
 selected_date = st.date_input("日付を選んで献立を表示", key="calendar_lookup")
 menu = load_menu_from_json(str(selected_date))
 
 if menu:
     st.subheader(f"{selected_date} の献立")
-    st.write(f"- 主菜: {menu['main']}")
+    st.write(f"- 主菜: {[dish for _, dish in menu['main']]}")
     st.write(f"- 副菜: {menu['side']}")
     st.write(f"- 汁物: {menu['soup']}")
 else:
