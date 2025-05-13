@@ -1,0 +1,8 @@
+献立アプリの場所を指定
+cd "%USERPROFILE%\OneDrive\デスクトップ\kondate_app"
+
+git add .
+
+git commit -m ""
+
+git push origin main

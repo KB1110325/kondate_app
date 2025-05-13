@@ -31,6 +31,15 @@ menu_data = {
             "ingredients": {"豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
             "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
         },
+        "からあげ": {
+            "ingredients": {"鶏もも肉": "1", "にんにく": "少々", "しょうが": "少々", "鶏がらのもと": "小さじ1/2", "片栗粉": "適量"},
+            "link": "https://cookpad.com/jp/recipes/19108352-%E7%B5%B6%E5%93%81-%E3%81%8B%E3%82%89%E6%8F%9A%E3%81%92"
+        },
+        "ミルフィーユかつ": {
+            "ingredients": {"豚ばら肉": "400g", "卵": "1個", "小麦粉": "大さじ2", "パン粉": "適量"},
+            "link": "https://www.instagram.com/p/Cn3PIDuPdUp/?img_index=5&igsh=dGdpdjFuZmg1MHBs"
+        },
+
         "焼き魚": {
             "ingredients": {"鮭": "2切れ", "塩": "小さじ1"},
             "link": "https://example.com/grilled_fish"
@@ -61,10 +70,10 @@ category_map = {
     "玉ねぎ": "野菜", "レタス": "野菜", "トマト": "野菜", "きゅうり": "野菜",
     "じゃがいも": "野菜", "にんじん": "野菜", "コーン": "野菜", "アボカド": "野菜", "れんこん": "野菜",
     "鮭": "魚",
-    "豚挽き肉": "肉", "豚こま肉": "肉", "豚ばら肉": "肉",
+    "豚挽き肉": "肉", "豚こま肉": "肉", "豚ばら肉": "肉", "鶏もも肉": "肉",
     "パン粉": "その他", "小麦粉": "その他", "卵": "その他", "豆腐": "その他",
     "乾燥わかめ": "その他", "にんにく": "その他", "しょうが": "その他",
-    "豆板醤": "調味料", "味噌": "調味料", "塩": "調味料"
+    "豆板醤": "調味料", "味噌": "調味料", "塩": "調味料", "鶏がらのもと": "調味料", "片栗粉": "調味料"
 }
 
 DATA_FILE = "kondate_data.json"
@@ -95,7 +104,7 @@ def load_menu_from_json(date_str):
 def sum_ingredients(qty_list):
     total = defaultdict(Fraction)
     for qty in qty_list:
-        for unit in ["個", "本", "g", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
+        for unit in ["個", "枚", "本", "g", "玉", "丁", "切れ", "大さじ", "小さじ", "少々", "適量"]:
             if unit in qty:
                 num_part = qty.replace(unit, "").strip()
                 try:
