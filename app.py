@@ -185,7 +185,7 @@ if st.button("買い物リストをまとめる"):
 
     for menu in selected_menus:
         for dish_name in menu["main"]:
-            ingredients = menu_data["主菜"][category][dish_name]["ingredients"]
+            ingredients = menu_data["主菜"][dish_name]["ingredients"]
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
