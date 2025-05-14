@@ -168,7 +168,7 @@ for i in range(day_count):
 
     selected_menus.append({
         "date": str(date),
-        "main": selected_main_dishes_with_category,
+        "main": selected_main_dishes,
         "side": selected_side_dishes,
         "soup": selected_soups
     })
