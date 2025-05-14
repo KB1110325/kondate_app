@@ -151,50 +151,61 @@ for i in range(day_count):
     st.header(f"{i+1}日目の献立")
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i), key=f"date_{i}")
 
-# 日付指定（例として1日のみ）
-selected_day = st.date_input("献立日付を選んでください")
+# --- 日付選択 ---
+st.title("献立プランナー")
 
-st.subheader(f"{selected_day} の献立")
+start_date = st.date_input("献立の開始日", date.today())
+days = st.slider("日数を選択（1〜7日）", min_value=1, max_value=7, value=3)
 
-### 主菜選択（カテゴリー×3＋料理選択×3）
-st.markdown("### 主菜（最大3品、カテゴリー自由）")
-main_dishes = []
+selected_dates = [start_date + timedelta(days=i) for i in range(days)]
 
-for i in range(1, 4):  # 最大3品まで
-    st.markdown(f"#### 主菜 {i}")
-    category = st.selectbox(
-        f"主菜カテゴリ {i}",
-        options=list(menu_data["主菜"].keys()),
-        key=f"main_category_{i}"
+# --- 日ごとの献立入力 ---
+menu_selections = {}
+
+for selected_date in selected_dates:
+    st.markdown(f"## {selected_date.strftime('%Y-%m-%d')} の献立")
+    day_key = selected_date.strftime('%Y-%m-%d')
+    menu_selections[day_key] = {}
+
+    # 主菜：最大3つ、カテゴリー自由
+    st.markdown("### 主菜（最大3品、カテゴリー自由）")
+    main_dishes = []
+    for i in range(1, 4):
+        st.markdown(f"#### 主菜 {i}")
+        category = st.selectbox(
+            f"主菜カテゴリ {i} - {day_key}",
+            options=list(menu_data["主菜"].keys()),
+            key=f"main_category_{day_key}_{i}"
+        )
+        dish = st.selectbox(
+            f"料理を選択（主菜 {i}） - {day_key}",
+            options=menu_data["主菜"][category],
+            key=f"main_dish_{day_key}_{i}"
+        )
+        main_dishes.append(dish)
+    menu_selections[day_key]["主菜"] = main_dishes
+
+    # 副菜
+    st.markdown("### 副菜（最大3品）")
+    side_dishes = st.multiselect(
+        f"副菜を選択 - {day_key}",
+        options=menu_data["副菜"],
+        key=f"side_dish_{day_key}",
+        max_selections=3
     )
+    menu_selections[day_key]["副菜"] = side_dishes
 
-    dish = st.selectbox(
-        f"料理を選択（主菜 {i}）",
-        options=menu_data["主菜"][category],
-        key=f"main_dish_{i}"
+    # 汁物
+    st.markdown("### 汁物（最大3品）")
+    soup_dishes = st.multiselect(
+        f"汁物を選択 - {day_key}",
+        options=menu_data["汁物"],
+        key=f"soup_dish_{day_key}",
+        max_selections=3
     )
+    menu_selections[day_key]["汁物"] = soup_dishes
 
-    main_dishes.append(dish)
-    st.subheader("副菜の選択")
-    side_dishes = list(menu_data["副菜"].keys())
-    selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, key=f"side_{i}")
-    if len(selected_side_dishes) > 3:
-        st.warning("副菜は最大3つまで選択できます。")
-    selected_side_dishes = selected_side_dishes[:3]
-
-    st.subheader("汁の選択")
-    soups = list(menu_data["汁"].keys())
-    selected_soups = st.multiselect("汁を選んでください（最大3つ）", soups, key=f"soup_{i}")
-    if len(selected_soups) > 3:
-        st.warning("汁物は最大3つまで選択できます。")
-    selected_soups = selected_soups[:3]
-
-    selected_menus.append({
-        "date": str(date),
-        "main": selected_main_dishes_with_category,
-        "side": selected_side_dishes,
-        "soup": selected_soups
-    })
+st.success("献立の入力が完了しました。")
 
 # ---- 保存ボタン ----
 if st.button("この献立を保存する"):
