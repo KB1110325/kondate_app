@@ -215,8 +215,8 @@ if st.button("買い物リストをまとめる"):
     st.header("📖 作り方リンク")
     for menu in selected_menus:
         st.subheader(f"{menu['date']} の献立")
-        for category, dish_name in menu["main"]:
-            link = menu_data["主菜"][category][dish_name]["link"]
+        for dish_name in menu["main"]:
+            link = menu_data["主菜"][dish_name]["link"]
             if link:
                 st.markdown(f"- 主菜：[{dish_name}]({link})")
             else:
