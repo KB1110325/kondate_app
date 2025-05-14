@@ -169,6 +169,7 @@ for j in range(3):  # 主菜は最大3つまで
         dishes,
         key=dish_key
     )
+    selected_main_dishes = []
     if len(selected_main_dishes) > 3:
         selected_main_dishes_with_category.append((selected_category, selected_dish))   
         st.warning("主菜は最大3つまで選択できます。")
