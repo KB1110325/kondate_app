@@ -28,7 +28,7 @@ menu_data = {
             "link": "https://www.instagram.com/reel/C9KRBhVS9E8/?igsh=MWc1YWUyeTd3MG9qcQ=="
         },
         "サバの味噌煮": {
-            "ingredients": {"サバ": "2切れg", "しょうがチューブ": "適量"},
+            "ingredients": {"サバ": "2切れ", "しょうがチューブ": "適量"},
             "link": "https://delishkitchen.tv/recipes/449561114036929616"
         },
         "白身魚のマヨ醤油": {
