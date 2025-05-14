@@ -23,7 +23,6 @@ dish_key_map = {
 
 menu_data = {
     "主菜": {
-        "魚料理": {
         "麻婆豆腐": {
             "ingredients": {"豆腐": "1丁", "豚挽き肉": "150g", "にんにく": "少々", "しょうが": "少々", "豆板醤": "小さじ0.5"},
             "link": "https://www.instagram.com/reel/C9KRBhVS9E8/?igsh=MWc1YWUyeTd3MG9qcQ=="
@@ -39,9 +38,7 @@ menu_data = {
         "タラのホイル焼き": {
             "ingredients": {"タラ": "2切れ", "しめじ": "1個", "玉ねぎ": "1/4個", "しょうがチューブ": "適量",},
             "link": "https://www.instagram.com/p/CHuF6x_JQUj/?igsh=Zm5ibDRycWM4enp5&img_index=1"
-        }
-     },
-        "肉料理": {
+        },
         "からあげ": {
             "ingredients": {"鶏もも肉": "1枚", "にんにく": "少々", "しょうが": "少々", "鶏がらのもと": "小さじ1/2", "片栗粉": "適量"},
             "link": "https://cookpad.com/jp/recipes/19108352-%E7%B5%B6%E5%93%81-%E3%81%8B%E3%82%89%E6%8F%9A%E3%81%92"
@@ -53,14 +50,11 @@ menu_data = {
         "エビカツ": {
             "ingredients": {"むき海老": "200g", "はんぺん": "1枚", "パン粉": "大さじ3", "片栗粉": "大さじ1", "鶏がらのもと": "小さじ1", "にんにくチューブ": "適量"},
             "link": "https://www.instagram.com/p/Cv9qonmJvDD/?img_index=5&igsh=MWFzMXU1aDlyMG5mcQ%3D%3D"
-        }
-     },
-       "丼もの": {
+        },
         "タルタル鮭フライ": {
             "ingredients": {"鮭": "2切れ", "薄力粉": "大さじ2", "パン粉": "適量", "卵": "1個", "玉ねぎ": "1/8個", "マヨネーズ": "大さじ3"},
             "link": "https://www.instagram.com/p/C4wG1VDBfJE/?igsh=MXNoaGxxbnFicWVwdw%3D%3D&img_index=1"
         }
-      }
     },
     "副菜": {
         "基本サラダ": {
@@ -152,13 +146,11 @@ for i in range(day_count):
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i), key=f"date_{i}")
 
     st.subheader("主菜の選択")
-    selected_category = st.selectbox("主菜カテゴリーを選んでください", list(menu_data["主菜"].keys()), key=f"main_cat_{i}")
-    main_dishes = list(menu_data["主菜"][selected_category].keys())
+    main_dishes = list(menu_data["主菜"].keys())
     selected_main_dishes = st.multiselect("主菜を選んでください（最大3つ）", main_dishes, key=f"main_{i}")
     if len(selected_main_dishes) > 3:
         st.warning("主菜は最大3つまで選択できます。")
     selected_main_dishes = selected_main_dishes[:3]
-    selected_main_dishes_with_category = [(selected_category, dish) for dish in selected_main_dishes]
 
     st.subheader("副菜の選択")
     side_dishes = list(menu_data["副菜"].keys())
