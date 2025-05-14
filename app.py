@@ -169,7 +169,8 @@ for i in range(1, 4):  # 最大3品まで
         key=f"main_dish_{i}"
     )
 
-    main_dishes.append(dish)    st.subheader("副菜の選択")
+    main_dishes.append(dish)    
+    st.subheader("副菜の選択")
     side_dishes = list(menu_data["副菜"].keys())
     selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, key=f"side_{i}")
     if len(selected_side_dishes) > 3:
