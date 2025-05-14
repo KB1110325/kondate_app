@@ -6,7 +6,7 @@ from collections import defaultdict
 from fractions import Fraction
 
 # --- パスワード認証 ---
-PASSWORD = "k1122"
+PASSWORD = "0524"
 password = st.text_input("パスワードを入力してください", type="password")
 if password != PASSWORD:
     st.warning("正しいパスワードを入力してください。")
