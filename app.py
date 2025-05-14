@@ -170,7 +170,7 @@ for j in range(3):  # 主菜は最大3つまで
         key=dish_key
     )
     if len(selected_main_dishes) > 3:
-    selected_main_dishes_with_category.append((selected_category, selected_dish))   
+        selected_main_dishes_with_category.append((selected_category, selected_dish))   
         st.warning("主菜は最大3つまで選択できます。")
     selected_main_dishes = selected_main_dishes[:3]
     selected_main_dishes_with_category = [(selected_category, dish) for dish in selected_main_dishes]
