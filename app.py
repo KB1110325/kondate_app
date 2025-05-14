@@ -152,10 +152,10 @@ for i in range(day_count):
     date = st.date_input(f"日付を選択（{i+1}日目）", value=start_date + datetime.timedelta(days=i), key=f"date_{i}")
 
 ### 主菜選択（カテゴリー×3＋料理選択×3）
-    st.markdown("### 主菜（最大3品、カテゴリー自由）")
-    main_dishes = []
+st.markdown("### 主菜（最大3品、カテゴリー自由）")
+main_dishes = []
 
-    for i in range(1, 4):  # 最大3品まで
+for i in range(1, 4):  # 最大3品まで
     st.markdown(f"#### 主菜 {i}")
     category = st.selectbox(
         f"主菜カテゴリ {i}",
@@ -169,8 +169,7 @@ for i in range(day_count):
         key=f"main_dish_{i}"
     )
 
-    main_dishes.append(dish)
-    st.subheader("副菜の選択")
+    main_dishes.append(dish)    st.subheader("副菜の選択")
     side_dishes = list(menu_data["副菜"].keys())
     selected_side_dishes = st.multiselect("副菜を選んでください（最大3つ）", side_dishes, key=f"side_{i}")
     if len(selected_side_dishes) > 3:
