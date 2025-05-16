@@ -182,24 +182,36 @@ if st.button("この献立を保存する"):
 # ---- 買い物リストまとめ ----
 if st.button("買い物リストをまとめる"):
     ingredient_totals = defaultdict(list)
+    recipe_links_by_date = defaultdict(list)  # ← 作り方リンク用に初期化
 
     for menu in selected_menus:
+        date = menu["date"]
+
         for dish_name in menu["main"]:
             ingredients = menu_data["主菜"][dish_name]["ingredients"]
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
+
+            link = menu_data["主菜"][dish_name]["link"]
+            recipe_links_by_date[date].append(("主菜", dish_name, link))
 
         for dish_name in menu["side"]:
             ingredients = menu_data["副菜"][dish_name]["ingredients"]
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
+            link = menu_data["副菜"][dish_name]["link"]
+            recipe_links_by_date[date].append(("副菜", dish_name, link))
+
         for dish_name in menu["soup"]:
             ingredients = menu_data["汁"][dish_name]["ingredients"]
             for item, qty in ingredients.items():
                 ingredient_totals[item].append(qty)
 
-    # カテゴリごとにまとめて表示
+            link = menu_data["汁"][dish_name]["link"]
+            recipe_links_by_date[date].append(("汁", dish_name, link))
+
+    # --- カテゴリごとにまとめて表示 ---
     st.header("🛒 買い物リスト")
     categorized = defaultdict(dict)
     for item, qtys in ingredient_totals.items():
@@ -212,27 +224,37 @@ if st.button("買い物リストをまとめる"):
             for item, total in categorized[category].items():
                 st.write(f"- {item}：{total}")
 
+    # --- コピー用：買い物リスト ---
+    shopping_text = ""
+    for category in ["野菜", "肉", "魚", "調味料", "その他"]:
+        if category in categorized:
+            shopping_text += f"【{category}】\n"
+            for item, total in categorized[category].items():
+                shopping_text += f"- {item}：{total}\n"
+            shopping_text += "\n"
+    st.text_area("📋 コピー用：買い物リスト", shopping_text.strip(), height=250)
+
+    # --- 作り方リンク表示 ---
     st.header("📖 作り方リンク")
-    for menu in selected_menus:
-        st.subheader(f"{menu['date']} の献立")
-        for dish_name in menu["main"]:
-            link = menu_data["主菜"][dish_name]["link"]
+    for date, recipes in recipe_links_by_date.items():
+        st.subheader(f"{date} の献立")
+        for category, name, link in recipes:
             if link:
-                st.markdown(f"- 主菜：[{dish_name}]({link})")
+                st.markdown(f"- {category}：[{name}]({link})")
             else:
-                st.write(f"- 主菜：{dish_name}（リンクなし）")
-        for dish_name in menu["side"]:
-            link = menu_data["副菜"][dish_name]["link"]
+                st.write(f"- {category}：{name}（リンクなし）")
+
+    # --- コピー用：作り方リンク ---
+    recipe_links_text = ""
+    for date, recipes in recipe_links_by_date.items():
+        recipe_links_text += f"[{date}]\n"
+        for category, name, link in recipes:
             if link:
-                st.markdown(f"- 副菜：[{dish_name}]({link})")
+                recipe_links_text += f"・{category}：{name} → {link}\n"
             else:
-                st.write(f"- 副菜：{dish_name}（リンクなし）")
-        for dish_name in menu["soup"]:
-            link = menu_data["汁"][dish_name]["link"]
-            if link:
-                st.markdown(f"- 汁：[{dish_name}]({link})")
-            else:
-                st.write(f"- 汁：{dish_name}（リンクなし）")
+                recipe_links_text += f"・{category}：{name}（リンクなし）\n"
+        recipe_links_text += "\n"
+    st.text_area("📋 コピー用：作り方リンク", recipe_links_text.strip(), height=300)
 
 # ---- 過去の献立表示 ----
 st.header("📅 カレンダーから過去の献立を確認")
