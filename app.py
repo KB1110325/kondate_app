@@ -2,7 +2,6 @@ import streamlit as st
 import datetime
 import json
 import os
-import html
 from collections import defaultdict
 from fractions import Fraction
 
@@ -234,30 +233,7 @@ if st.button("買い物リストをまとめる"):
             for item, total in categorized[category].items():
                 shopping_text += f"- {item}：{total}\n"
             shopping_text += "\n"
-
-    escaped_text = html.escape(shopping_text.strip())
-
-    # HTMLとJavaScriptでコピー対応（JSでボタンイベント処理）
-    st.markdown(f"""
-    <textarea id="shopping_textarea" rows="15" style="width: 100%; margin-bottom: 0.5em;">{escaped_text}</textarea>
-    <button id="copy_button">📋 買い物リストをコピー</button>
-
-    <script>
-    const copyButton = document.getElementById("copy_button");
-    const textarea = document.getElementById("shopping_textarea");
-
-    copyButton.addEventListener("click", () => {{
-    navigator.clipboard.writeText(textarea.value).then(() => {{
-        copyButton.innerText = "✅ コピーしました！";
-        setTimeout(() => {{
-            copyButton.innerText = "📋 買い物リストをコピー";
-        }}, 2000);
-    }}).catch(err => {{
-        alert("コピーに失敗しました: " + err);
-    }});
-}});
-    </script>
-    """, unsafe_allow_html=True)
+    st.text_area("📋 コピー用：買い物リスト", shopping_text.strip(), height=250)
     
     # --- 作り方リンク表示 ---
     st.header("📖 作り方リンク")
