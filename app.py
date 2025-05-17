@@ -232,7 +232,12 @@ if st.button("買い物リストをまとめる"):
             for item, total in categorized[category].items():
                 shopping_text += f"- {item}：{total}\n"
             shopping_text += "\n"
-    st.text_area("📋 コピー用：買い物リスト", shopping_text.strip(), height=250)
+    st.text_area("📋 コピー用：買い物リスト", shopping_text.strip(), height=250, key="shopping_area")
+    st.markdown("""
+    <button onclick="navigator.clipboard.writeText(document.getElementById('shopping_area').value)">
+        📋 買い物リストをコピー
+    </button>
+    """, unsafe_allow_html=True)
 
     # --- 作り方リンク表示 ---
     st.header("📖 作り方リンク")
