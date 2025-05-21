@@ -62,7 +62,7 @@ menu_data = {
             "link": "https://www.instagram.com/p/DIEKhwZTAk4/?igsh=MWo1ZTVocmt4OGYwMg%3D%3D&img_index=1"
         },        
         "ミートパスタ": {
-            "ingredients": {"豚ひき肉": "200g", "玉ねぎ": "1個", "ホールトマト": "1缶", "にんにく": "2片" "にんじん": "1本", 
+            "ingredients": {"豚ひき肉": "200g", "玉ねぎ": "1個", "ホールトマト": "1缶", "にんにく": "2片", "にんじん": "1本", 
             "ウスターソース": "大さじ1", "コンソメ": "大さじ1/2", "小麦粉": "大さじ1", "しいたけ": "3個"},
             "link": "https://cookpad.com/jp/recipes/17509648-%E7%B0%A1%E5%8D%98%E3%83%9F%E3%83%BC%E3%83%88%E3%82%BD%E3%83%BC%E3%82%B9"
         },
